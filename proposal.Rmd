@@ -1,7 +1,7 @@
 ---
 title: "DASC 1104 Project Proposal"
 author: "Ben Marlow"
-date: "12/1/2020"
+date: "12/3/2020"
 output: pdf_document
 ---
 
@@ -10,7 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## 1    My blog link
-My blog is available at [https://dasc-1104-bmarlow.netlify.app/]() 
+
+My blog is available at [https://dasc-1104-bmarlow.netlify.app/](https://dasc-1104-bmarlow.netlify.app/)
 
 ```{r}
 library(tidyverse)
@@ -20,9 +21,23 @@ glimpse(dat_nfl)
 glimpse(dat_mlb)
 ```
 
-## 2    The Impact of the QB in the Modern Day NFL
+## 2    The Modern Day NFL
 
-Using data available on GitHub from FiveThirtyEight.com, I am going to examine the NFL and MLB Elo datasets. A few key variables in the NFL data include the final score of both teams in their respective games, the quarterback elo and value ratings before and after the game, and the elo win probability for either team. When looking at the MLB data, variables to heavily consider here are as follows: runs scored for both teams, the starting pitchers in each game, their team's elo rating, and adjusted pitcher rating. There are 269 observations of 30 variables in the most recent NFL dataset and 951 observations of 26 variables in the MLB dataset.
+For the first half of this project, I'll be examining the NFL Elo dataset contained in the nfl_elo_latest.csv file on the FiveThirtyEight website. The data consist of 269 observations of 30 variables. I obviously won't be focusing on all 30 variables within this dataset but I'll highlight a few that will be key in shaping my analysis. The variables team1 and team2 are the abbreviations for the home and away team. The variables qb1 and qb2 are the names of the home and away starting quarterback. The variables elo_prob1 and elo_prob2 indicate the home and away team's chances of winning according to the predicitve Elo metric. The variables qbelo_prob1 and qbelo_prob2 records the home and away probability of winning based on the quarterback-adjusted Elo rating. Lastly, the variables score_1 and score_2 state the home and away team's final score in each game. Initial exploration shows that the highest rated quarterbacks in the NFL more often than not put more points on the scoreboard and consequently carry their team to victory. There are clearly other factors that have a chance to affect the outcome of a game (weather, injuries), however we will not be including those in this analysis.
 
-Question 1: 
+## 3    Is the Starting Pitcher still the King of the Hill?
+
+The second dataset I will be taking a closer look at is the MLB Elo dataset given in the mlb_elo_latest.csv file on the FiveThirtyEight website. The MLB Elo dataset has 951 observations of 26 variables: the variables team1 and team2 are abbreviations for the home and away team, the variables elo_prob1 and elo_prob2 define the home and away team's probability of winning according to Elo ratings, the variables pitcher1 and pitcher2 list the name of the home and away starting pitcher, the variables rating_prob1 and rating_prob2 indicate the home and away team's probability of winning according to team ratings AND starting pitchers, and the variables score1 and score2 provide the number of runs scored for either team in each game.
+
+* Question 1: First, is there a significant gap in a team's win probability with and without the QB? If so, which teams have the biggest margin? To test this, I will generate data visualizations (likely scatterplots) as well as calculate statistics such as the mean, median, and standard deviations of the probability difference. 
+
+* Question 2: Second, how has the number of points scored changed over time? To investigate this, I will generate data visualizations of the average amount of points scored in each NFL game over the years. In the visualization I will explore facets and groupings of other variables (like teams) to see if the number of points scored vary with other variables.
+
+* Question 3: Third, has the starting pitcher become more of a detriment to a team's chances of winning rather than of help? First, I will mutate the data to calculate whether the starting pitcher's team won or lost the game they took the mound in. Then, I will produce visualizations combining that outcome with the rating_prob1 and ratingprob_2 variables to see if a correlation exists. 
+
+* Question 4: To be determined.
+
+  
+
+
 
