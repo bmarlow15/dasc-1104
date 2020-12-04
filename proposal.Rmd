@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## 1    My blog link
-My blog is available at https://dasc-1104-bmarlow.netlify.app/ 
+My blog is available at [https://dasc-1104-bmarlow.netlify.app/]() 
 
 ```{r}
 library(tidyverse)
