@@ -9,8 +9,8 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## 1    My Blog Link
-My blog is available at [https://dasc-1104-bmarlow.netlify.app/]((https://bookdown.org/yihui/blogdown/)
+## 1    My blog link
+My blog is available at https://dasc-1104-bmarlow.netlify.app/ 
 
 ```{r}
 library(tidyverse)
@@ -20,7 +20,7 @@ glimpse(dat_nfl)
 glimpse(dat_mlb)
 ```
 
-## 2    The Prime Position in the NFL and MLB
+## 2    The Impact of the QB in the Modern Day NFL
 
 Using data available on GitHub from FiveThirtyEight.com, I am going to examine the NFL and MLB Elo datasets. A few key variables in the NFL data include the final score of both teams in their respective games, the quarterback elo and value ratings before and after the game, and the elo win probability for either team. When looking at the MLB data, variables to heavily consider here are as follows: runs scored for both teams, the starting pitchers in each game, their team's elo rating, and adjusted pitcher rating. There are 269 observations of 30 variables in the most recent NFL dataset and 951 observations of 26 variables in the MLB dataset.
 
