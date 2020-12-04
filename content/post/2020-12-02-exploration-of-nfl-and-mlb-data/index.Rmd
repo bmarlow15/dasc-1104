@@ -1,0 +1,8 @@
+---
+title: Exploration of NFL and MLB Data
+author: ~
+date: '2020-12-02'
+slug: exploration-of-nfl-and-mlb-data
+categories: []
+tags: []
+---

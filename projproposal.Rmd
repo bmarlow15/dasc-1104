@@ -1,0 +1,28 @@
+---
+title: "DASC 1104 Project Proposal"
+author: "Ben Marlow"
+date: "12/1/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1    My Blog Link
+My blog is available at [https://dasc-1104-bmarlow.netlify.app/]((https://bookdown.org/yihui/blogdown/)
+
+```{r}
+library(tidyverse)
+dat_nfl <- read.csv(file = here::here("data", "nfl_elo_latest.csv"))
+dat_mlb <- read.csv(file = here::here("data", "mlb_elo_latest.csv"))
+glimpse(dat_nfl)
+glimpse(dat_mlb)
+```
+
+## 2    The Prime Position in the NFL and MLB
+
+Using data available on GitHub from FiveThirtyEight.com, I am going to examine the NFL and MLB Elo datasets. A few key variables in the NFL data include the final score of both teams in their respective games, the quarterback elo and value ratings before and after the game, and the elo win probability for either team. When looking at the MLB data, variables to heavily consider here are as follows: runs scored for both teams, the starting pitchers in each game, their team's elo rating, and adjusted pitcher rating. There are 269 observations of 30 variables in the most recent NFL dataset and 951 observations of 26 variables in the MLB dataset.
+
+Question 1: 
+
