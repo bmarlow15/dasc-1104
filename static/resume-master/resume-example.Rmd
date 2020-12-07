@@ -18,7 +18,7 @@ geometry: margin=1in
 email: bwmarlow@uark.edu
 phone: 816-809-1557
 location: "Kansas City, MO"
-github: bwmarlow15
+github: bmarlow15
 web: 
 twitter: "@MarlowBenji"
 linkedin: "benjamin-m-7056aa14b/"
