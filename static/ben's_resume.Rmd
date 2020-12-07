@@ -6,7 +6,7 @@ output:
     dev: cairo_pdf
     template: svm-latex-resume.tex
 
-title: "Résumé"
+title: "Resume"
 author: "Ben Marlow"
 date: "9/10/2020 -- Update before applying"
 
