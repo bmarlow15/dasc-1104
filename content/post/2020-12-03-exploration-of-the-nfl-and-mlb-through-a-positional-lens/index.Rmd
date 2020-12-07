@@ -1,5 +1,5 @@
 ---
-title: Exploration of the Modern NFL and MLB through a Positional Lens
+title: Exploration of the Modern NFL
 author: ~
 date: '2020-12-07'
 slug: exploration-of-the-nfl-and-mlb-through-a-positional-lens
