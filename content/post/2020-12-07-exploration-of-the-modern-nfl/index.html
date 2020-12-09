@@ -19,8 +19,9 @@ dat_nfl &lt;- read_csv(&quot;nfl_elo_latest.csv&quot;)</code></pre>
 <div id="data" class="section level2">
 <h2>Data</h2>
 <p>The NFL Elo dataset contains 256 observations of 30 variables. The data was collected by downloading nfl_elo_latest.csv from the FiveThirtyEight Github page. Altogether, the data comprised in this file details the game-by-game Elo ratings and forecasts for the latest NFL regular season up until Jan 3, 2021. There are many factors that go into these predictive metrics, however the more important ones refer to the QB play on a given team. A few questions that I’m going to answer with the data are as follows: is there a significant gap in a team’s win probability when including the adjusted QB rating? Which teams have the biggest differential in this split? Additionally, has there been a steady increase of points scored throughout the regular season? If so, what might be the reasoning behind that? All these questions should help us to understand the true value of the QB in today’s NFL as well as where the game is headed as far as scoring is concerned.</p>
-<div id="question-1" class="section level3">
-<h3>Question 1:</h3>
+</div>
+<div id="question-1" class="section level2">
+<h2>Question 1:</h2>
 <p>Is there a significant gap in a team’s win probability with the inclusion of adjusted QB rating? To test this question, we visualize the data in the form of scatterplots where each team is assigned their own graph. To avoid redundancy, I will only focus on the home team for every game. The reason being home and away splits this season don’t vary as much due to fans not being in attendance for most games.</p>
 <pre class="r"><code>library(tidyverse)
 elo_variables_1 &lt;- c(&quot;team1&quot;, &quot;elo_prob1&quot;, &quot;qbelo_prob1&quot;)
@@ -29,7 +30,6 @@ home_team_plot &lt;- ggplot(data = win_prob_team_1, aes(x = elo_prob1, y = qbelo
 home_team_plot</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>The data visualizations above seek to establish a correlation between a team’s win probability based solely on elo ratings and a team’s win probability based on elo ratings adjusted for the QB. Across the board, a positive relationship exists among these two variables. Furthermore, this indicates that if a team is starting a competent QB on a weekly basis, a majority of the points on their respective graph will sit in the mid to upper-right quartile. We notice, however, that some data points for teams do not fall in this range. That leads us into our anaylsis for the following question.</p>
-</div>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2:</h2>
