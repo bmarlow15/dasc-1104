@@ -1,7 +1,7 @@
 ---
 title: "Exploration of the Modern Day NFL"
 author: 'null'
-date: '2020-12-07'
+date: '2020-12-10'
 output:
   html_document:
     df_print: paged
@@ -22,7 +22,6 @@ The NFL Elo dataset contains 256 observations of 30 variables. The data was coll
 ## Question 1:
 
 Is there a significant gap in a team's win probability with the inclusion of adjusted QB rating? To test this question, we visualize the data in the form of scatterplots where each team is assigned their own graph. To avoid redundancy, I will only focus on the home team for every game. The reason being home and away splits this season don't vary as much due to fans not being in attendance for most games.
-
 
 ```{r}
 library(tidyverse)
