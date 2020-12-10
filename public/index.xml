@@ -8,21 +8,21 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>A Shortened MLB Season? The Good and the Bad.</title>
+      <link>/2020/12/10/a-shortened-mlb-season-the-good-and-the-bad/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/12/10/a-shortened-mlb-season-the-good-and-the-bad/</guid>
+      <description>library(tidyverse) dat_mlb &amp;lt;- read_csv(&amp;quot;mlb_elo_latest.csv&amp;quot;) Data The second dataset we’ll be examining for this project is the Major League Baseball Elo dataset given in the mlb_elo_latest.csv file on the FiveThirtyEight website. The MLB Elo dataset has 951 observations of 26 variables: the variables team1 and team2 are abbreviations for the home and away team, the variables elo_prob1 and elo_prob2 define the home and away team’s probability of winning according to Elo ratings, the variables pitcher1 and pitcher2 list the name of the home and away starting pitcher, the variables rating_prob1 and rating_prob2 indicate the home and away team’s probability of winning according to team ratings AND starting pitcher adjustment, and the variables score1 and score2 provide the number of runs scored for either team in each game.</description>
+    </item>
+    
+    <item>
       <title>Exploration of the Modern Day NFL</title>
       <link>/2020/12/10/exploration-of-the-modern-nfl/</link>
       <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
       
       <guid>/2020/12/10/exploration-of-the-modern-nfl/</guid>
       <description>library(tidyverse) dat_nfl &amp;lt;- read_csv(&amp;quot;nfl_elo_latest.csv&amp;quot;) Data The NFL Elo dataset contains 256 observations of 30 variables. The data was collected by downloading nfl_elo_latest.csv from the FiveThirtyEight Github page. Altogether, the data comprised in this file details the game-by-game Elo ratings and forecasts for the latest NFL regular season up until Jan 3, 2021. There are many factors that go into these predictive metrics, however the more important ones refer to the QB play on a given team.</description>
-    </item>
-    
-    <item>
-      <title>A Shortened MLB Season? The Good and the Bad.</title>
-      <link>/2020/12/09/a-shortened-mlb-season-the-good-and-the-bad/</link>
-      <pubDate>Wed, 09 Dec 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/2020/12/09/a-shortened-mlb-season-the-good-and-the-bad/</guid>
-      <description>  </description>
     </item>
     
     <item>

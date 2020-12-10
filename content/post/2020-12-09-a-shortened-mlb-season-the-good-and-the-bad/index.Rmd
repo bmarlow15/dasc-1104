@@ -28,3 +28,20 @@ ggplot(data = neutral_site, mapping = aes(x = date, y = total_runs)) + geom_smoo
 ```
 
 Based on the visualizations, there wasn't quite enough evidence to support the idea of more runs being scored on a neutral site as compared to a traditional home ballpark. Obviously, the neutral site graph contains a smaller sample size but a majority of its path still lies in that 8.5-9.5 run total. On the contrary, it can be said that the distinct line paths do vary between the two. In the home ballparks visualization, the line first increases from 8.5, reaches a peak around 9.5, and then naturally falls back down to 8.5 towards the end of the regular season. The line in the neutral site visualization starts by sharply decreasing from a higher run total of roughly 12.5, plateauing in the 8-9.5 range, and then finally trailing off below the 7.5 mark. Does this perhaps give us insight as to how pitchers adjusted throughout these relative time periods? We can seek to answer that question in the following analysis.
+
+## Question 2
+
+On average, did the ratings of starting pitchers progress throughout the regular season? If so, what might explain this uptick in performance? To investigate, I'll develop a scatterplot with a linear regression line to determine the overall effectiveness of pitchers across all 60 games of the 2020 MLB regular season.
+
+## Question 3
+
+TBD
+
+## Conclusion 
+
+TBD
+
+
+
+
+
