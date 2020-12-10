@@ -2,7 +2,7 @@
 title: A Shortened MLB Season? The Good and the Bad.
 author: ~
 date: '2020-12-10'
-slug: is-the-starting-pitcher-still-the-king-of-the-hill-in-mlb
+slug: a-shortened-mlb-season-the-good-and-the-bad
 categories: []
 tags: []
 ---
@@ -23,6 +23,3 @@ Did games being played on a neutral site (mainly the postseason) lead to more ru
 ```{r}
 home_ballparks <- dat_mlb %>% filter(neutral == FALSE) %>% mutate(total_runs = score1 + score2)
 neutral_site <- dat_mlb %>% filter(neutral == TRUE) %>% mutate(total_runs = score1 + score2)
-```
-
-
