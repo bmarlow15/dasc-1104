@@ -1,7 +1,7 @@
 ---
 title: A Shortened MLB Season? The Good and the Bad.
 author: ~
-date: '2020-12-09'
+date: '2020-12-10'
 slug: a-shortened-mlb-season-the-good-and-the-bad
 categories: []
 tags: []
@@ -11,4 +11,22 @@ tags: []
 <script src="index_files/anchor-sections/anchor-sections.js"></script>
 
 
-
+<pre class="r"><code>library(tidyverse)
+dat_mlb &lt;- read_csv(&quot;mlb_elo_latest.csv&quot;)</code></pre>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The second dataset we’ll be examining for this project is the Major League Baseball Elo dataset given in the mlb_elo_latest.csv file on the FiveThirtyEight website. The MLB Elo dataset has 951 observations of 26 variables: the variables team1 and team2 are abbreviations for the home and away team, the variables elo_prob1 and elo_prob2 define the home and away team’s probability of winning according to Elo ratings, the variables pitcher1 and pitcher2 list the name of the home and away starting pitcher, the variables rating_prob1 and rating_prob2 indicate the home and away team’s probability of winning according to team ratings AND starting pitcher adjustment, and the variables score1 and score2 provide the number of runs scored for either team in each game.</p>
+</div>
+<div id="question-1" class="section level2">
+<h2>Question 1:</h2>
+<p>Did games being played on a neutral site (mainly the postseason) lead to more runs being scored or was there not much of a difference? To explore this question, we visualize the total number of runs scored per game on a neutral site versus in series that were played in each team’s respective home ballpark.</p>
+<pre class="r"><code>home_ballparks &lt;- dat_mlb %&gt;% filter(neutral == 0) %&gt;% mutate(total_runs = score1 + score2)
+neutral_site &lt;- dat_mlb %&gt;% filter(neutral == 1) %&gt;% mutate(total_runs = score1 + score2)
+ggplot(data = home_ballparks, mapping = aes(x = date, y = total_runs)) + geom_smooth() + ggtitle(&quot;Total Runs Scored Per Game in Home Ballparks&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = neutral_site, mapping = aes(x = date, y = total_runs)) + geom_smooth() + ggtitle(&quot;Total Runs Scored Per Game on a Neutral Site&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
+<p>Based on the visualizations, there wasn’t quite enough evidence to support the idea of more runs being scored on a neutral site as compared to a traditional home ballpark. Obviously, the neutral site graph contains a smaller sample size but a majority of its path still lies in that 8.5-9.5 run total. On the contrary, it can be said that the distinct line paths do vary between the two. In the home ballparks visualization, the line first increases from 8.5, reaches a peak around 9.5, and then naturally falls back down to 8.5 towards the end of the regular season. The line in the neutral site visualization starts by sharply decreasing from a higher run total of roughly 12.5, plateauing in the 8-9.5 range, and then finally trailing off below the 7.5 mark. Does this perhaps give us insight as to how pitchers adjusted throughout these relative time periods? We can seek to answer that question in the following analysis.</p>
+</div>
