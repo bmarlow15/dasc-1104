@@ -23,7 +23,7 @@ The NFL Elo dataset contains 256 observations of 30 variables. The data was coll
 
 Is there a significant gap in a team's win probability with the inclusion of adjusted QB rating? To test this question, we visualize the data in the form of scatterplots where each team is assigned their own graph. To avoid redundancy, I will only focus on the home team for every game. The reason being home and away splits this season don't vary as much due to fans not being in attendance for most games.
 
-```{r}
+```{r, echo=TRUE}
 library(tidyverse)
 elo_variables_1 <- c("team1", "elo_prob1", "qbelo_prob1")
 win_prob_team_1 <- dat_nfl[elo_variables_1] %>% na.omit()
@@ -37,7 +37,7 @@ The data visualizations above seek to establish a correlation between a team's w
 
 Next, we will perform some calculations on summary statistics from this data to determine which teams in the NFL have the greatest disparity in win probability when adjusted for QB rating.
 
-```{r}
+```{r, echo=TRUE}
 avg_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(mean_elo_prob_diff = mean(elo_diff))
 avg_elo_diff %>% filter(mean_elo_prob_diff > 0.08)
 med_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(median_elo_prob_diff = median(elo_diff))
@@ -52,7 +52,7 @@ After calculating the mean, median, and standard deviations of win probability d
 
 How has the number of points scored varied by team during the 2020 NFL season? Does playing on the road make a difference in this case? To investigate this, we will generate boxplots of the points scored for both the home and away team on a per game basis during the regular season. From there, our goal will be to identify any trends or scoring patterns from the data in order to make further assumptions.
 
-```{r}
+```{r, echo=TRUE}
 pts_variables <- c("score1", "score2", "team1", "team2")
 pts <- dat_nfl[pts_variables] %>% na.omit()
 ggplot(data = pts, aes(x = team1, y = score1, fill = team1)) + geom_boxplot() + ggtitle("Home Team Points Scored During the 2020 NFL Regular Season") + theme(legend.position = "none") + theme(axis.text.x = element_text(angle = 90, hjust = 0.5))

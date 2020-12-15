@@ -43,15 +43,27 @@ photobigness: 1.75cm
 
 # Professional Experience
 
+* Office Intern at Thornton Tomasetti (Jan 2018 - April 2018) - unpaid internship via Northland CAPS program 
+
 # Education
- 
+
+* Staley High School (August 2014 - May 2018)
+* Kansas State University (August 2018 - May 2020)
+* University of Arkansas (August 2020 - Present)
+
 ## Undergraduate Program
 
 B.S. in Data Science
 
 # Technical Skills (or Accomplishments)
 
+* Moderate Exposure to Coding Languages like Bash, Python, & R
+* Proficient in Microsoft Office
+
 ## Awards and Distinctions
+
+* Wabash Cannonball Scholarship Recipient (Kansas State University)
+* National Honors Society (Staley High School)
 
 :::
 ::::::
