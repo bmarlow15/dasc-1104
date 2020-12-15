@@ -31,22 +31,35 @@ home_team_plot <- ggplot(data = win_prob_team_1, aes(x = elo_prob1, y = qbelo_pr
 home_team_plot
 ```
 
-The data visualizations above seek to establish a correlation between a team's win probability based solely on elo ratings and a team's win probability based on elo ratings adjusted for the QB. Across the board, a positive relationship exists among these two variables. Furthermore, this indicates that if a team is starting a competent QB on a weekly basis, a majority of the dots on their respective graph will sit in the mid to upper-right quartile. We notice, however, that some data points for teams do not fall in this range. That leads us into our analysis for the following question.
+The data visualizations above seek to establish a correlation between a team's win probability based solely on elo ratings and a team's win probability based on elo ratings adjusted for the QB. Across the board, a positive relationship exists among these two variables. Furthermore, this indicates that if a team is starting a competent QB on a weekly basis, a majority of the dots on their respective graph will sit in the mid to upper-right quartile. We notice, however, that some data points for teams do not fall in this range. For example, see JAX and WAS. Both teams have undergone drastic changes at the QB position throughout the year. Whether it's been due to poor QB play or injuries piling up at the position, it's been tough sledding for either team on the offensive side of the ball. That leads us into our analysis for the following question.
 
 ## Question 2:
 
-Next, we will perform some calculations on summary statistics from this data to determine which teams in the NFL have the greatest disparity in win probability when adjusted for QB rating.
+Next, we will perform some calculations on summary statistics from this data to determine which teams in the NFL have the greatest and least disparity in win probability when adjusted for QB rating.
 
 ```{r, echo=TRUE}
-avg_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(mean_elo_prob_diff = mean(elo_diff))
-avg_elo_diff %>% filter(mean_elo_prob_diff > 0.08)
-med_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(median_elo_prob_diff = median(elo_diff))
-med_elo_diff %>% filter(median_elo_prob_diff > 0.07)
-std_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(sd_elo_prob_diff = sd(elo_diff))
-std_elo_diff %>% filter(sd_elo_prob_diff > 0.09)
+avg_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(largest_mean_elo_prob_diff = mean(elo_diff))
+avg_elo_diff %>% filter(largest_mean_elo_prob_diff > 0.08)
+med_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(largest_median_elo_prob_diff = median(elo_diff))
+med_elo_diff %>% filter(largest_median_elo_prob_diff > 0.07)
+std_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(largest_sd_elo_prob_diff = sd(elo_diff))
+std_elo_diff %>% filter(largest_sd_elo_prob_diff > 0.09)
 ```
 
-After calculating the mean, median, and standard deviations of win probability differential for all 32 teams, the 5 teams with the biggest margins were filtered out in each category. The Atlanta Falcons and Cincinnati Bengals appear in the top 5 in all three statistical categories, likely meaning their starting QB (Matt Ryan and Joe Burrow) has hurt their chances of winning a game this season more often than not. Now to be fair to the Bengals, Joe Burrow was injured a few weeks back and they've been playing with backups for the remainder of the season. That would obviously have something to do with their name coming up on multiple occasions. The biggest surprise in these top 5 breakdowns, though, is the New Orleans Saints. With a record of 10-2, they are a high caliber team in the NFL. Yet when looking at their QB situation throughout the season, it has been a bit unexpected. The Saints lost their original starting QB in Drew Brees, a future Hall-of-Famer, and replaced him with a guy who has not played necessarily worse than him but who is more volatile on a week to week basis. That may explain why the Saints are at the top of the lists in average win probabibilty differential and in standard deviation of win probability differential.
+After calculating the mean, median, and standard deviations of win probability differential for all 32 teams, the 5 teams with the biggest margins were filtered out in each category. The Atlanta Falcons and Cincinnati Bengals appear in the top 5 in all three statistical categories, likely meaning their starting QB (Matt Ryan and Joe Burrow) has hurt their chances of winning a game this season more often than not. Now to be fair to the Bengals, Joe Burrow was injured a few weeks back and they've been playing with backups for the remainder of the season. That would obviously have something to do with their name coming up on multiple occasions. The biggest surprise in these top 5 breakdowns, though, is the New Orleans Saints. With a record of 10-2, they are a high caliber team in the NFL. Yet when looking at their QB situation throughout the season, it has been a bit unexpected. The Saints lost their original starting QB in Drew Brees, a future Hall-of-Famer, and replaced him with a guy who has not played necessarily worse than him but who is more volatile on a week to week basis. That may explain why the Saints are at the top of the list in average win probabibilty differential and in standard deviation of win probability differential.
+
+Now, let's breakdown the 5 teams with the smallest margins in each category.
+
+```{r, echo=TRUE}
+avg_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(smallest_mean_elo_prob_diff = mean(elo_diff))
+avg_elo_diff %>% filter(smallest_mean_elo_prob_diff < 0.001)
+med_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(smallest_median_elo_prob_diff = median(elo_diff))
+med_elo_diff %>% filter(smallest_median_elo_prob_diff < 0.009)
+std_elo_diff <- win_prob_team_1 %>% mutate(elo_diff = elo_prob1 - qbelo_prob1) %>% group_by(team1) %>% summarize(smallest_sd_elo_prob_diff = sd(elo_diff))
+std_elo_diff %>% filter(smallest_sd_elo_prob_diff < 0.0256)
+```
+
+If you've been keeping up with the back half of the 2020 NFL season, you'll notice that each team appearing in the top 5 for both the smallest average win probability differential and smallest median win probability differential are all in playoff contention or at least in the hunt. Through recent weeks, it can be argued that no QB has been more efficient than the Buffalo Bills' Josh Allen or Cleveland Browns' Baker Mayfield. Their level of consistency at the position has been mightily helpful in aiding their team's chances of winning. This is reflected in their top 5 ranking here. However, the top 5 teams listed under the smallest standard deviation of win probability differential tell a different story. Guys like Philip Rivers, Jared Goff, and Cam Newton (IND, LAR, & NE) aren't going to necessarily lose you the game but typically haven't been the reason why their teams have won. In other words, the QB play on these 5 teams has been mediocre all season. There may be a game here or there where that particular QB pops but ultimately will revert back to the mean the following week.
 
 ## Question 3:
 

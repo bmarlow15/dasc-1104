@@ -29,42 +29,74 @@ win_prob_team_1 &lt;- dat_nfl[elo_variables_1] %&gt;% na.omit()
 home_team_plot &lt;- ggplot(data = win_prob_team_1, aes(x = elo_prob1, y = qbelo_prob1, color = team1)) + geom_point() + facet_wrap(~ team1) + ggtitle(&quot;Home Team Win Probability Based on Elo with and without Adj. QB Rtg.&quot;) + theme(legend.position = &quot;none&quot;)
 home_team_plot</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>The data visualizations above seek to establish a correlation between a team’s win probability based solely on elo ratings and a team’s win probability based on elo ratings adjusted for the QB. Across the board, a positive relationship exists among these two variables. Furthermore, this indicates that if a team is starting a competent QB on a weekly basis, a majority of the dots on their respective graph will sit in the mid to upper-right quartile. We notice, however, that some data points for teams do not fall in this range. That leads us into our analysis for the following question.</p>
+<p>The data visualizations above seek to establish a correlation between a team’s win probability based solely on elo ratings and a team’s win probability based on elo ratings adjusted for the QB. Across the board, a positive relationship exists among these two variables. Furthermore, this indicates that if a team is starting a competent QB on a weekly basis, a majority of the dots on their respective graph will sit in the mid to upper-right quartile. We notice, however, that some data points for teams do not fall in this range. For example, see JAX and WAS. Both teams have undergone drastic changes at the QB position throughout the year. Whether it’s been due to poor QB play or injuries piling up at the position, it’s been tough sledding for either team on the offensive side of the ball. That leads us into our analysis for the following question.</p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2:</h2>
-<p>Next, we will perform some calculations on summary statistics from this data to determine which teams in the NFL have the greatest disparity in win probability when adjusted for QB rating.</p>
-<pre class="r"><code>avg_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(mean_elo_prob_diff = mean(elo_diff))
-avg_elo_diff %&gt;% filter(mean_elo_prob_diff &gt; 0.08)</code></pre>
+<p>Next, we will perform some calculations on summary statistics from this data to determine which teams in the NFL have the greatest and least disparity in win probability when adjusted for QB rating.</p>
+<pre class="r"><code>avg_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(largest_mean_elo_prob_diff = mean(elo_diff))
+avg_elo_diff %&gt;% filter(largest_mean_elo_prob_diff &gt; 0.08)</code></pre>
 <pre><code>## # A tibble: 5 x 2
-##   team1 mean_elo_prob_diff
-##   &lt;chr&gt;              &lt;dbl&gt;
-## 1 ATL               0.0824
-## 2 CIN               0.0870
-## 3 DAL               0.0805
-## 4 JAX               0.107 
-## 5 NO                0.0829</code></pre>
-<pre class="r"><code>med_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(median_elo_prob_diff = median(elo_diff))
-med_elo_diff %&gt;% filter(median_elo_prob_diff &gt; 0.07)</code></pre>
+##   team1 largest_mean_elo_prob_diff
+##   &lt;chr&gt;                      &lt;dbl&gt;
+## 1 ATL                       0.0824
+## 2 CIN                       0.0870
+## 3 DAL                       0.0805
+## 4 JAX                       0.107 
+## 5 NO                        0.0829</code></pre>
+<pre class="r"><code>med_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(largest_median_elo_prob_diff = median(elo_diff))
+med_elo_diff %&gt;% filter(largest_median_elo_prob_diff &gt; 0.07)</code></pre>
 <pre><code>## # A tibble: 5 x 2
-##   team1 median_elo_prob_diff
-##   &lt;chr&gt;                &lt;dbl&gt;
-## 1 ATL                 0.0855
-## 2 CIN                 0.0944
-## 3 JAX                 0.109 
-## 4 MIA                 0.0783
-## 5 TEN                 0.0823</code></pre>
-<pre class="r"><code>std_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(sd_elo_prob_diff = sd(elo_diff))
-std_elo_diff %&gt;% filter(sd_elo_prob_diff &gt; 0.09)</code></pre>
+##   team1 largest_median_elo_prob_diff
+##   &lt;chr&gt;                        &lt;dbl&gt;
+## 1 ATL                         0.0855
+## 2 CIN                         0.0944
+## 3 JAX                         0.109 
+## 4 MIA                         0.0783
+## 5 TEN                         0.0823</code></pre>
+<pre class="r"><code>std_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(largest_sd_elo_prob_diff = sd(elo_diff))
+std_elo_diff %&gt;% filter(largest_sd_elo_prob_diff &gt; 0.09)</code></pre>
 <pre><code>## # A tibble: 5 x 2
-##   team1 sd_elo_prob_diff
-##   &lt;chr&gt;            &lt;dbl&gt;
-## 1 ATL             0.105 
-## 2 CAR             0.105 
-## 3 CIN             0.0936
-## 4 DEN             0.102 
-## 5 NO              0.135</code></pre>
-<p>After calculating the mean, median, and standard deviations of win probability differential for all 32 teams, the 5 teams with the biggest margins were filtered out in each category. The Atlanta Falcons and Cincinnati Bengals appear in the top 5 in all three statistical categories, likely meaning their starting QB (Matt Ryan and Joe Burrow) has hurt their chances of winning a game this season more often than not. Now to be fair to the Bengals, Joe Burrow was injured a few weeks back and they’ve been playing with backups for the remainder of the season. That would obviously have something to do with their name coming up on multiple occasions. The biggest surprise in these top 5 breakdowns, though, is the New Orleans Saints. With a record of 10-2, they are a high caliber team in the NFL. Yet when looking at their QB situation throughout the season, it has been a bit unexpected. The Saints lost their original starting QB in Drew Brees, a future Hall-of-Famer, and replaced him with a guy who has not played necessarily worse than him but who is more volatile on a week to week basis. That may explain why the Saints are at the top of the lists in average win probabibilty differential and in standard deviation of win probability differential.</p>
+##   team1 largest_sd_elo_prob_diff
+##   &lt;chr&gt;                    &lt;dbl&gt;
+## 1 ATL                     0.105 
+## 2 CAR                     0.105 
+## 3 CIN                     0.0936
+## 4 DEN                     0.102 
+## 5 NO                      0.135</code></pre>
+<p>After calculating the mean, median, and standard deviations of win probability differential for all 32 teams, the 5 teams with the biggest margins were filtered out in each category. The Atlanta Falcons and Cincinnati Bengals appear in the top 5 in all three statistical categories, likely meaning their starting QB (Matt Ryan and Joe Burrow) has hurt their chances of winning a game this season more often than not. Now to be fair to the Bengals, Joe Burrow was injured a few weeks back and they’ve been playing with backups for the remainder of the season. That would obviously have something to do with their name coming up on multiple occasions. The biggest surprise in these top 5 breakdowns, though, is the New Orleans Saints. With a record of 10-2, they are a high caliber team in the NFL. Yet when looking at their QB situation throughout the season, it has been a bit unexpected. The Saints lost their original starting QB in Drew Brees, a future Hall-of-Famer, and replaced him with a guy who has not played necessarily worse than him but who is more volatile on a week to week basis. That may explain why the Saints are at the top of the list in average win probabibilty differential and in standard deviation of win probability differential.</p>
+<p>Now, let’s breakdown the 5 teams with the smallest margins in each category.</p>
+<pre class="r"><code>avg_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(smallest_mean_elo_prob_diff = mean(elo_diff))
+avg_elo_diff %&gt;% filter(smallest_mean_elo_prob_diff &lt; 0.001)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   team1 smallest_mean_elo_prob_diff
+##   &lt;chr&gt;                       &lt;dbl&gt;
+## 1 ARI                      0.000230
+## 2 BUF                      0.000923
+## 3 CLE                     -0.00591 
+## 4 IND                     -0.000351
+## 5 PIT                     -0.0213</code></pre>
+<pre class="r"><code>med_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(smallest_median_elo_prob_diff = median(elo_diff))
+med_elo_diff %&gt;% filter(smallest_median_elo_prob_diff &lt; 0.009)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   team1 smallest_median_elo_prob_diff
+##   &lt;chr&gt;                         &lt;dbl&gt;
+## 1 ARI                        0.00782 
+## 2 BUF                        0.000119
+## 3 CLE                       -0.0133  
+## 4 IND                        0.00270 
+## 5 PIT                       -0.0131</code></pre>
+<pre class="r"><code>std_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(smallest_sd_elo_prob_diff = sd(elo_diff))
+std_elo_diff %&gt;% filter(smallest_sd_elo_prob_diff &lt; 0.0256)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   team1 smallest_sd_elo_prob_diff
+##   &lt;chr&gt;                     &lt;dbl&gt;
+## 1 BAL                      0.0213
+## 2 IND                      0.0205
+## 3 LAR                      0.0254
+## 4 NE                       0.0253
+## 5 SF                       0.0198</code></pre>
+<p>If you’ve been keeping up with the back half of the 2020 NFL season, you’ll notice that each team appearing in the top 5 for both the smallest average win probability differential and smallest median win probability differential are all in playoff contention or at least in the hunt. Through recent weeks, it can be argued that no QB has been more efficient than the Buffalo Bills’ Josh Allen or Cleveland Browns’ Baker Mayfield. Their level of consistency at the position has been mightily helpful in aiding their team’s chances of winning. This is reflected in their top 5 ranking here. However, the top 5 teams listed under the smallest standard deviation of win probability differential tell a different story. Guys like Philip Rivers, Jared Goff, and Cam Newton (IND, LAR, &amp; NE) aren’t going to necessarily lose you the game but typically haven’t been the reason why their teams have won. In other words, the QB play on these 5 teams has been mediocre all season. There may be a game here or there where that particular QB pops but ultimately will revert back to the mean the following week.</p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3:</h2>
@@ -72,9 +104,9 @@ std_elo_diff %&gt;% filter(sd_elo_prob_diff &gt; 0.09)</code></pre>
 <pre class="r"><code>pts_variables &lt;- c(&quot;score1&quot;, &quot;score2&quot;, &quot;team1&quot;, &quot;team2&quot;)
 pts &lt;- dat_nfl[pts_variables] %&gt;% na.omit()
 ggplot(data = pts, aes(x = team1, y = score1, fill = team1)) + geom_boxplot() + ggtitle(&quot;Home Team Points Scored During the 2020 NFL Regular Season&quot;) + theme(legend.position = &quot;none&quot;) + theme(axis.text.x = element_text(angle = 90, hjust = 0.5))</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(data = pts, aes(x = team2, y = score2, fill = team2)) + geom_boxplot() + ggtitle(&quot;Away Team Points Scored During the 2020 NFL Regular Season&quot;) + theme(legend.position = &quot;none&quot;) + theme(axis.text.x = element_text(angle = 90, hjust = 0.5))</code></pre>
-<p><img src="index_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p><img src="index_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
 <p>When looking at the box plots above, we see more fluctuation with points scored by the home team on a per game basis. This is an interesting phenomenon as it would seem players are more comfortable playing in their home stadium environments. What’s even more of a shock is the more balanced scoring across the league when teams were away. Here, the median scoring of the away teams hover around the 25 point mark whereas the home team medians are more volatile from team to team. Ultimately, home field advantage may not be as prevalent in 2020.</p>
 </div>
 <div id="conclusion" class="section level2">
