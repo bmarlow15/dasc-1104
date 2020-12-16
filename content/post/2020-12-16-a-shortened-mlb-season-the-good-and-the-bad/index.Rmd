@@ -34,21 +34,42 @@ Based on the visualizations, there wasn't quite enough evidence to support the i
 On average, did the ratings of starting pitchers progress throughout the regular season? If so, which pitching staff(s) exemplified an improvement? I'll perform a linear regression analysis to determine the overall effectiveness of pitchers across all 60 games. We'll have visuals for starting pitchers (home and away) on every team.
 
 ```{r, echo=TRUE}
-library(ggplot2)
-pitcher_variables <- c("pitcher1_rgs", "pitcher2_rgs", "date", "team1", "team2", "pitcher1", "pitcher2", "neutral")
+pitcher_variables <- c("pitcher1_rgs", "pitcher2_rgs", "date", "team1", "team2", "pitcher1", "pitcher2", "neutral", "playoff")
 pitcher_ratings <- dat_mlb[pitcher_variables] %>% filter(neutral == 0)
-home_pitchers <- ggplot(data = pitcher_ratings, mapping = aes(x = date, y = pitcher1_rgs)) + facet_wrap(~ team1) + geom_point(position = "jitter") + theme(legend.position = "none") + ggtitle("Starting Pitchers at Home During the 2020 MLB Regular Season") + theme(axis.text.x = element_text(angle = 45, hjust = 0.5))
-home_pitchers + geom_smooth(method = "lm", formula = y ~ x)
-away_pitchers <- ggplot(data = pitcher_ratings, mapping = aes(x = date, y = pitcher2_rgs)) + facet_wrap(~ team2) + geom_point(position = "jitter") + theme(legend.position = "none") + ggtitle("Starting Pitchers on the Road During the 2020 MLB Regular Season") + theme(axis.text.x = element_text(angle = 45, hjust = 0.5))
-away_pitchers + geom_smooth(method = "lm", formula = y ~ x)
+ggplot(data = pitcher_ratings, mapping = aes(x = date, y = pitcher1_rgs)) + facet_wrap(~ team1) + geom_point(position = "jitter") + theme(legend.position = "none") + ggtitle("Starting Pitchers at Home During the 2020 MLB Regular Season") + theme(axis.text.x = element_text(angle = 45, hjust = 0.5)) + geom_smooth(method = "lm", formula = y ~ x)
+ggplot(data = pitcher_ratings, mapping = aes(x = date, y = pitcher2_rgs)) + facet_wrap(~ team2) + geom_point(position = "jitter") + theme(legend.position = "none") + ggtitle("Starting Pitchers on the Road During the 2020 MLB Regular Season") + theme(axis.text.x = element_text(angle = 45, hjust = 0.5)) + geom_smooth(method = "lm", formula = y ~ x)
 ```
 
 The graphs above would signal each team's group of starting pitchers performed relatively similar throughout the course of the regular season. This goes for both at home and on the road. Now there are some outliers within this data set that can and should be recognized. If we look closer at the "Starting Pitchers at Home" graph we'll notice that the Chicago Cubs (CHC), Los Angeles Dodgers (LAD), and Minnesota Twins (MIN) show growth in their SP ratings from August to October. On the flip side, for "Starting Pitchers on the Road", teams such as the Baltimore Orioles (BAL), Chicago White Sox (CHW), Milwaukee Brewers (MIL), and New York Mets (NYM) also appear to demonstrate some improvement. All in all, pitching at the professional level is not an easy task let alone starting a game. Batters are very skilled and from time to time will rough up the opposing starting pitcher with an onslaught of hits and runs. This is evident for a few teams where their SP trend line actually dips a bit over the 3 month period. 
 
 ## Question 3:
 
-Our third and final question will address 
+Who was the hottest team in each round of the postseason? The Dodgers were crowned World Champs in 6 games over the Tampa Bay Rays but is that to say they had all the momentum heading into the World Series let alone the entire span of the playoffs? Let's find out. 
 
+Note: Only variables elo1_pre and elo1_post will be used to calculate the change in elo rating per round (team2 variables output the inverse) 
+
+```{r, echo=TRUE}
+postseason_variables <- c("date", "playoff", "team1", "elo1_pre", "elo1_post")
+ws <- dat_mlb[postseason_variables] %>% filter(playoff == "w") %>% mutate(elo1_change = elo1_post - elo1_pre) 
+ggplot(data = ws, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle("Change in Team Elo Rating during the World Series") + theme(legend.position = "none")
+```
+
+As expected, the Dodgers were the hotter team in the World Series raising their team elo rating on average by 2 points. Let's dive into the League Championship Series to see if this pattern holds true.
+
+```{r}
+lcs <- dat_mlb[postseason_variables] %>% filter(playoff == "l") %>% mutate(elo1_change = elo1_post - elo1_pre) 
+ggplot(data = lcs, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle("Change in Team Elo Rating during the League Championship Series") + theme(legend.position = "none")
+```
+
+In the LCS, the Dodgers weren't able to claim title of hottest team throughout. That tag can be assigned to both teams from the American League in the Houston Astros (HOU) and 
+
+```{r}
+div <- dat_mlb[postseason_variables] %>% filter(playoff == "d") %>% mutate(elo1_change = elo1_post - elo1_pre) 
+```
+
+```{r}
+wc <- dat_mlb[postseason_variables] %>% filter(playoff == "c") %>% mutate(elo1_change = elo1_post - elo1_pre) 
+```
 ## Conclusion 
 
 TBD

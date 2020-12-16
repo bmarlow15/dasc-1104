@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">3 min read</span>
+    <span class="article-duration">6 min read</span>
     
 
     <h1 class="article-title">A Shortened MLB Season? The Good and the Bad.</h1>
@@ -94,15 +94,34 @@ ggplot(data = home_ballparks, mapping = aes(x = date, y = total_runs)) + geom_po
 <pre class="r"><code>ggplot(data = neutral_site, mapping = aes(x = date, y = total_runs)) + geom_point(color = &quot;green&quot;) + geom_smooth() + ggtitle(&quot;Total Runs Scored Per Game on a Neutral Site&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
-<p>Based on the visualizations, there wasn’t quite enough evidence to support the idea of fewer runs being scored on a neutral site as compared to in a traditional home ballpark. Obviously, the neutral site graph contains a smaller sample size but a majority of its path still lies in that 8.5-9.5 run range. On the contrary, it can be said that the distinct line paths do vary between the two. In the home ballparks visualization, the line is relatively flat hovering around the 9 run mark. The line in the neutral site visualization starts by sharply decreasing from a higher run total of roughly 12.5, plateauing in the 8-9.5 range, and then finally trailing off below the 7.5 mark. Does this maybe give us insight as to how pitchers adjusted throughout these relative time periods? In the postseason, it’s understood that teams will try and deploy only their best pitching options throughout a series. Keeping that in mind, it tracks that scoring gradually went down as the playoffs went on.</p>
+<p>Based on the visualizations, there wasn’t quite enough evidence to support the idea of fewer runs being scored on a neutral site as compared to in a traditional home ballpark. Obviously, the neutral site graph contains a smaller sample size but a majority of its path still lies in that 8.5-9.5 run range. On the contrary, it can be said that the distinct line paths do vary between the two. In the home ballparks visualization, the line is relatively flat hovering around the 9 run mark. The line in the neutral site visualization starts by sharply decreasing from a higher run total of roughly 12.5, plateauing in the 8-9.5 range, and then finally trailing off below the 7.5 mark. Does this give us insight as to how pitchers adjusted throughout these relative time periods? In the postseason, it’s understood that teams will try and deploy only their best pitching options throughout a series. Keeping that in mind, it tracks that scoring gradually went down as the playoffs went on.</p>
 </div>
 <div id="question-2" class="section level2">
-<h2>Question 2</h2>
-<p>On average, did the ratings of starting pitchers progress throughout the regular season? If so, what might explain this uptick in performance? To investigate, I’ll develop a scatterplot with a linear regression model to determine the overall effectiveness of pitchers across all 60 games of the 2020 MLB regular season.</p>
+<h2>Question 2:</h2>
+<p>On average, did the ratings of starting pitchers progress throughout the regular season? If so, which pitching staff(s) exemplified an improvement? I’ll perform a linear regression analysis to determine the overall effectiveness of pitchers across all 60 games. We’ll have visuals for starting pitchers (home and away) on every team.</p>
+<pre class="r"><code>pitcher_variables &lt;- c(&quot;pitcher1_rgs&quot;, &quot;pitcher2_rgs&quot;, &quot;date&quot;, &quot;team1&quot;, &quot;team2&quot;, &quot;pitcher1&quot;, &quot;pitcher2&quot;, &quot;neutral&quot;, &quot;playoff&quot;)
+pitcher_ratings &lt;- dat_mlb[pitcher_variables] %&gt;% filter(neutral == 0)
+ggplot(data = pitcher_ratings, mapping = aes(x = date, y = pitcher1_rgs)) + facet_wrap(~ team1) + geom_point(position = &quot;jitter&quot;) + theme(legend.position = &quot;none&quot;) + ggtitle(&quot;Starting Pitchers at Home During the 2020 MLB Regular Season&quot;) + theme(axis.text.x = element_text(angle = 45, hjust = 0.5)) + geom_smooth(method = &quot;lm&quot;, formula = y ~ x)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = pitcher_ratings, mapping = aes(x = date, y = pitcher2_rgs)) + facet_wrap(~ team2) + geom_point(position = &quot;jitter&quot;) + theme(legend.position = &quot;none&quot;) + ggtitle(&quot;Starting Pitchers on the Road During the 2020 MLB Regular Season&quot;) + theme(axis.text.x = element_text(angle = 45, hjust = 0.5)) + geom_smooth(method = &quot;lm&quot;, formula = y ~ x)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p>The graphs above would signal each team’s group of starting pitchers performed relatively similar throughout the course of the regular season. This goes for both at home and on the road. Now there are some outliers within this data set that can and should be recognized. If we look closer at the “Starting Pitchers at Home” graph we’ll notice that the Chicago Cubs (CHC), Los Angeles Dodgers (LAD), and Minnesota Twins (MIN) show growth in their SP ratings from August to October. On the flip side, for “Starting Pitchers on the Road”, teams such as the Baltimore Orioles (BAL), Chicago White Sox (CHW), Milwaukee Brewers (MIL), and New York Mets (NYM) also appear to demonstrate some improvement. All in all, pitching at the professional level is not an easy task let alone starting a game. Batters are very skilled and from time to time will rough up the opposing starting pitcher with an onslaught of hits and runs. This is evident for a few teams where their SP trend line actually dips a bit over the 3 month period.</p>
 </div>
 <div id="question-3" class="section level2">
-<h2>Question 3</h2>
-<p>TBD</p>
+<h2>Question 3:</h2>
+<p>Who was the hottest team in each round of the postseason? The Dodgers were crowned World Champs in 6 games over the Tampa Bay Rays but is that to say they had all the momentum heading into the World Series let alone the entire span of the playoffs? Let’s find out.
+Note: Only variables elo1_pre and elo1_post will be used to calculate the change in elo rating per round (team2 variables output the inverse)</p>
+<pre class="r"><code>postseason_variables &lt;- c(&quot;date&quot;, &quot;playoff&quot;, &quot;team1&quot;, &quot;elo1_pre&quot;, &quot;elo1_post&quot;)
+ws &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;w&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) 
+ggplot(data = ws, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle(&quot;Change in Team Elo Rating during the World Series&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>As expected, the Dodgers were the hotter team in the World Series raising their team elo rating on average by 2 points. Let’s dive into the League Championship Series to see if this pattern holds true.</p>
+<pre class="r"><code>lcs &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;l&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) 
+ggplot(data = lcs, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle(&quot;Change in Team Elo Rating during the League Championship Series&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>In the LCS, the Dodgers weren’t able to claim title of hottest team throughout. That tag can be assigned to both teams from the American League in the Houston Astros (HOU) and</p>
+<pre class="r"><code>div &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;d&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) </code></pre>
+<pre class="r"><code>wc &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;c&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) </code></pre>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
