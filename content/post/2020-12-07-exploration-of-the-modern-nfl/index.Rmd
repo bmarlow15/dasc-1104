@@ -70,16 +70,20 @@ pts_variables <- c("score1", "score2", "team1", "team2")
 pts <- dat_nfl[pts_variables] %>% na.omit()
 ggplot(data = pts, aes(x = team1, y = score1, fill = team1)) + geom_boxplot() + ggtitle("Home Team Points Scored During the 2020 NFL Regular Season") + theme(legend.position = "none") + theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
 ggplot(data = pts, aes(x = team2, y = score2, fill = team2)) + geom_boxplot() + ggtitle("Away Team Points Scored During the 2020 NFL Regular Season") + theme(legend.position = "none") + theme(axis.text.x = element_text(angle = 90, hjust = 0.5))
+```
+
+When looking at the box plots above, we see more fluctuation with points scored by the home team on a per game basis. This is an interesting phenomenon as it would seem players are more comfortable playing in their home stadium environments. What's even more of a shock is the more balanced scoring across the league when teams were away. Here, the median scoring of the away teams hover around the 25 point mark whereas the home team medians are more volatile from team to team. Is home field advantage non-existent in 2020? Perhaps, but player travel has also been a lot different this year with COVID protocols in place and that might also explain the wide range of outcomes. 
+
+```{r, echo=TRUE}
 avg_home_pts <- pts %>% group_by(team1) %>% summarize(avg_score1 = mean(score1))
 avg_away_pts <- pts %>% group_by(team2) %>% summarize(avg_score2 = mean(score2))
 avg_home_pts
 avg_away_pts
 ```
 
-When looking at the box plots above, we see more fluctuation with points scored by the home team on a per game basis. This is an interesting phenomenon as it would seem players are more comfortable playing in their home stadium environments. What's even more of a shock is the more balanced scoring across the league when teams were away. Here, the median scoring of the away teams hover around the 25 point mark whereas the home team medians are more volatile from team to team. Is home field advantage non-existent in 2020? Perhaps, but player travel has also been a lot different this year with COVID protocols in place and that might also explain the wide range of outcomes. 
-
 We also have two tables listing the average points scored for each team while they were home (avg_score1) and away (avg_score2) this season. There are, in fact, some teams that buck the trend of home field advantage as it relates to scoring points. Rosters with a sizable difference in scoring (averaging more points on the road) include CHI, DEN, JAX, LAR, SF, TB & WSH. Almost a quarter of the league mirrors this tendency, yet is that enough to deem home field advantage a mirage in 2020? Well, there's still a majority of teams scoring more at home or putting up a similar number of points regardless of where the game is played. So, that should put that argument to rest. However, I'd say there are more teams than usual lighting up the scoreboard on the opponents turf.
 
 ## Conclusion
 
 After reviewing the data set above, it can be said that the QB position in today's NFL is a relevant factor in determining a team's success on the field. The best teams in the league often have the best QBs. Guys like Patrick Mahomes (KC) and Aaron Rodgers (GB) always seem to limit their mistakes and put their team over the top. As GMs and front offices continue to facilitate their rosters year in and year out, they should definitely prioritize finding that franchise QB.
+In terms of overall scoring, will those numbers go up or down from here on out? It's something to ponder with still many limitations being put on player's due to the ongoing pandemic.
