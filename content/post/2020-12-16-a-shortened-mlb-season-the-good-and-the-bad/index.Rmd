@@ -27,7 +27,7 @@ ggplot(data = home_ballparks, mapping = aes(x = date, y = total_runs)) + geom_po
 ggplot(data = neutral_site, mapping = aes(x = date, y = total_runs)) + geom_point(color = "green") + geom_smooth() + ggtitle("Total Runs Scored Per Game on a Neutral Site")
 ```
 
-Based on the visualizations, there wasn't quite enough evidence to support the idea of fewer runs being scored on a neutral site as compared to in a traditional home ballpark. Obviously, the neutral site graph contains a smaller sample size but a majority of its path still lies in that 8.5-9.5 run range. On the contrary, it can be said that the distinct line paths do vary between the two. In the home ballparks visualization, the line is relatively flat hovering around the 9 run mark. The line in the neutral site visualization starts by sharply decreasing from a higher run total of roughly 12.5, plateauing in the 8-9.5 range, and then finally trailing off below the 7.5 mark. Does this maybe give us insight as to how pitchers adjusted throughout these relative time periods? In the postseason, it's understood that teams will try and deploy only their best pitching options throughout a series. Keeping that in mind, it tracks that scoring gradually went down as the playoffs went on. However, we can seek to further answer this question in the following analysis.
+Based on the visualizations, there wasn't quite enough evidence to support the idea of fewer runs being scored on a neutral site as compared to in a traditional home ballpark. Obviously, the neutral site graph contains a smaller sample size but a majority of its path still lies in that 8.5-9.5 run range. On the contrary, it can be said that the distinct line paths do vary between the two. In the home ballparks visualization, the line is relatively flat hovering around the 9 run mark. The line in the neutral site visualization starts by sharply decreasing from a higher run total of roughly 12.5, plateauing in the 8-9.5 range, and then finally trailing off below the 7.5 mark. Does this maybe give us insight as to how pitchers adjusted throughout these relative time periods? In the postseason, it's understood that teams will try and deploy only their best pitching options throughout a series. Keeping that in mind, it tracks that scoring gradually went down as the playoffs went on.
 
 ## Question 2
 
@@ -40,8 +40,3 @@ TBD
 ## Conclusion 
 
 TBD
-
-
-
-
-

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.7)  15 DEC 2020 23:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.12.7)  16 DEC 2020 00:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -882,7 +882,7 @@ Package rerunfilecheck Info: File `resume-example.out' has not changed.
 Here is how much of TeX's memory you used:
  24188 strings out of 481331
  422684 string characters out of 5917527
- 720260 words of memory out of 5000000
+ 720257 words of memory out of 5000000
  40556 multiletter control sequences out of 15000+600000
  459536 words of font info for 62 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -899,7 +899,7 @@ TeX/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb></home/bwmarlow/.TinyTeX/texmf
 c/lm/lmr9.pfb></home/bwmarlow/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.p
 fb></home/bwmarlow/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmssbx10.pfb></hom
 e/bwmarlow/.TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt9.pfb>
-Output written on resume-example.pdf (1 page, 217356 bytes).
+Output written on resume-example.pdf (1 page, 217297 bytes).
 PDF statistics:
  95 PDF objects out of 1000 (max. 8388607)
  81 compressed objects within 1 object stream

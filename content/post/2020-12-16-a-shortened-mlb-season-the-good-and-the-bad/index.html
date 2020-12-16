@@ -1,3 +1,12 @@
+---
+title: A Shortened MLB Season? The Good and the Bad.
+author: ~
+date: '2020-12-16'
+slug: a-shortened-mlb-season-the-good-and-the-bad
+categories: []
+tags: []
+---
+
 <link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
 <script src="index_files/anchor-sections/anchor-sections.js"></script>
 
@@ -13,17 +22,17 @@ dat_mlb &lt;- read_csv(&quot;mlb_elo_latest.csv&quot;)</code></pre>
 <p>Did games being played on a neutral site (mainly the postseason) lead to less runs being scored or was there not much of a difference? To explore this question, we visualize the total number of runs scored per game on a neutral site versus in series that were played in each team’s respective home ballpark.</p>
 <pre class="r"><code>home_ballparks &lt;- dat_mlb %&gt;% filter(neutral == 0) %&gt;% mutate(total_runs = score1 + score2) 
 neutral_site &lt;- dat_mlb %&gt;% filter(neutral == 1) %&gt;% mutate(total_runs = score1 + score2)
-ggplot(data = home_ballparks, mapping = aes(x = date, y = total_runs)) + geom_point(fill = &quot;red&quot;) + geom_smooth() + ggtitle(&quot;Total Runs Scored Per Game in Home Ballparks&quot;)</code></pre>
+ggplot(data = home_ballparks, mapping = aes(x = date, y = total_runs)) + geom_point(color = &quot;navy&quot;) + geom_smooth() + ggtitle(&quot;Total Runs Scored Per Game in Home Ballparks&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<pre class="r"><code>ggplot(data = neutral_site, mapping = aes(x = date, y = total_runs)) + geom_point(fill = &quot;blue&quot;) + geom_smooth() + ggtitle(&quot;Total Runs Scored Per Game on a Neutral Site&quot;)</code></pre>
+<pre class="r"><code>ggplot(data = neutral_site, mapping = aes(x = date, y = total_runs)) + geom_point(color = &quot;green&quot;) + geom_smooth() + ggtitle(&quot;Total Runs Scored Per Game on a Neutral Site&quot;)</code></pre>
 <pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-2-2.png" width="672" /></p>
-<p>Based on the visualizations, there wasn’t quite enough evidence to support the idea of more runs being scored on a neutral site as compared to a traditional home ballpark. Obviously, the neutral site graph contains a smaller sample size but a majority of its path still lies in that 8.5-9.5 run total. On the contrary, it can be said that the distinct line paths do vary between the two. In the home ballparks visualization, the line first increases from 8.5, reaches a peak around 9.5, and then naturally falls back down to 8.5 towards the end of the regular season. The line in the neutral site visualization starts by sharply decreasing from a higher run total of roughly 12.5, plateauing in the 8-9.5 range, and then finally trailing off below the 7.5 mark. Does this perhaps give us insight as to how pitchers adjusted throughout these relative time periods? In the postseason, teams try to deploy only their best pitchers throughout so that would seem to make some sense. We can seek to further answer this question in the following analysis.</p>
+<p>Based on the visualizations, there wasn’t quite enough evidence to support the idea of fewer runs being scored on a neutral site as compared to in a traditional home ballpark. Obviously, the neutral site graph contains a smaller sample size but a majority of its path still lies in that 8.5-9.5 run range. On the contrary, it can be said that the distinct line paths do vary between the two. In the home ballparks visualization, the line is relatively flat hovering around the 9 run mark. The line in the neutral site visualization starts by sharply decreasing from a higher run total of roughly 12.5, plateauing in the 8-9.5 range, and then finally trailing off below the 7.5 mark. Does this maybe give us insight as to how pitchers adjusted throughout these relative time periods? In the postseason, it’s understood that teams will try and deploy only their best pitching options throughout a series. Keeping that in mind, it tracks that scoring gradually went down as the playoffs went on.</p>
 </div>
 <div id="question-2" class="section level2">
 <h2>Question 2</h2>
-<p>On average, did the ratings of starting pitchers progress throughout the regular season? If so, what might explain this uptick in performance? To investigate, I’ll develop a scatterplot with a linear regression line to determine the overall effectiveness of pitchers across all 60 games of the 2020 MLB regular season.</p>
+<p>On average, did the ratings of starting pitchers progress throughout the regular season? If so, what might explain this uptick in performance? To investigate, I’ll develop a scatterplot with a linear regression model to determine the overall effectiveness of pitchers across all 60 games of the 2020 MLB regular season.</p>
 </div>
 <div id="question-3" class="section level2">
 <h2>Question 3</h2>
