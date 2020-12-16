@@ -1,7 +1,7 @@
 ---
 title: "Exploration of the Modern Day NFL"
 author: 'null'
-date: '2020-12-10'
+date: '2020-12-16'
 output:
   html_document:
     df_print: paged
