@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.79.0" />
+
+
+<title>Exploration of the Modern Day NFL - Ben&#39;s DASC 1104 Blog</title>
+<meta property="og:title" content="Exploration of the Modern Day NFL - Ben&#39;s DASC 1104 Blog">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">Ben Marlow</a></li>
+    
+    <li><a href="https://github.com/bmarlow15">GitHub</a></li>
+    
+    <li><a href="/resume-master/resume-example.pdf">Resume</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">10 min read</span>
+    
+
+    <h1 class="article-title">Exploration of the Modern Day NFL</h1>
+
+    
+    <span class="article-date">2020-12-16</span>
+    
+
+    <div class="article-content">
+      
+<link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="index_files/anchor-sections/anchor-sections.js"></script>
+
+
+<pre class="r"><code>library(tidyverse)
+dat_nfl &lt;- read_csv(&quot;nfl_elo_latest.csv&quot;)</code></pre>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>The NFL Elo dataset contains 256 observations of 30 variables. The data was collected by downloading nfl_elo_latest.csv from the FiveThirtyEight Github page. Altogether, the data comprised in this file details the game-by-game Elo ratings and forecasts for the latest NFL regular season up until Jan 3, 2021. There are many factors that go into these predictive metrics, however the more important ones refer to the QB play on a given team. A few questions that I’m going to answer with the data are as follows: is there a significant gap in a team’s win probability when including the adjusted QB rating? Which teams have the biggest differential in this split? Additionally, has there been a steady increase of points scored throughout the regular season? If so, what might be the reasoning behind that? All these questions should help us to understand the true value of the QB in today’s NFL as well as where the game is headed as far as scoring is concerned.</p>
+</div>
+<div id="question-1" class="section level2">
+<h2>Question 1:</h2>
+<p>Is there a significant gap in a team’s win probability with the inclusion of adjusted QB rating? To test this question, we visualize the data in the form of scatterplots where each team is assigned their own graph. To avoid redundancy, I will only focus on the home team for every game. The reason being home and away splits this season don’t vary as much due to fans not being in attendance for most games.</p>
+<pre class="r"><code>library(tidyverse)
+elo_variables_1 &lt;- c(&quot;team1&quot;, &quot;elo_prob1&quot;, &quot;qbelo_prob1&quot;)
+win_prob_team_1 &lt;- dat_nfl[elo_variables_1] %&gt;% na.omit()
+home_team_plot &lt;- ggplot(data = win_prob_team_1, aes(x = elo_prob1, y = qbelo_prob1, color = team1)) + geom_point() + facet_wrap(~ team1) + ggtitle(&quot;Home Team Win Probability Based on Elo with and without Adj. QB Rtg.&quot;) + theme(legend.position = &quot;none&quot;)
+home_team_plot</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>The data visualizations above seek to establish a correlation between a team’s win probability based solely on elo ratings and a team’s win probability based on elo ratings adjusted for the QB. Across the board, a positive relationship exists among these two variables. Furthermore, this indicates that if a team is starting a competent QB on a weekly basis, a majority of the dots on their respective graph will sit in the mid to upper-right quartile. We notice, however, that some data points for teams do not fall in this range. For example, see JAX and WSH. Both teams have undergone drastic changes at the QB position throughout the year. Whether it’s been due to poor QB play or injuries piling up at the position, it’s been tough sledding for either team on the offensive side of the ball. That leads us into our analysis for the following question.</p>
+</div>
+<div id="question-2" class="section level2">
+<h2>Question 2:</h2>
+<p>Next, we will perform some calculations on summary statistics from this data to determine which teams in the NFL have the greatest and least disparity in win probability when adjusted for QB rating.</p>
+<pre class="r"><code>avg_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(largest_mean_elo_prob_diff = mean(elo_diff))
+avg_elo_diff %&gt;% filter(largest_mean_elo_prob_diff &gt; 0.08)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   team1 largest_mean_elo_prob_diff
+##   &lt;chr&gt;                      &lt;dbl&gt;
+## 1 ATL                       0.0824
+## 2 CIN                       0.0870
+## 3 DAL                       0.0805
+## 4 JAX                       0.107 
+## 5 NO                        0.0829</code></pre>
+<pre class="r"><code>med_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(largest_median_elo_prob_diff = median(elo_diff))
+med_elo_diff %&gt;% filter(largest_median_elo_prob_diff &gt; 0.07)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   team1 largest_median_elo_prob_diff
+##   &lt;chr&gt;                        &lt;dbl&gt;
+## 1 ATL                         0.0855
+## 2 CIN                         0.0944
+## 3 JAX                         0.109 
+## 4 MIA                         0.0783
+## 5 TEN                         0.0823</code></pre>
+<pre class="r"><code>std_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(largest_sd_elo_prob_diff = sd(elo_diff))
+std_elo_diff %&gt;% filter(largest_sd_elo_prob_diff &gt; 0.09)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   team1 largest_sd_elo_prob_diff
+##   &lt;chr&gt;                    &lt;dbl&gt;
+## 1 ATL                     0.105 
+## 2 CAR                     0.105 
+## 3 CIN                     0.0936
+## 4 DEN                     0.102 
+## 5 NO                      0.135</code></pre>
+<p>After calculating the mean, median, and standard deviations of win probability differential for all 32 teams, the 5 teams with the biggest margins were filtered out in each category. The Atlanta Falcons and Cincinnati Bengals appear in the top 5 in all three statistical categories, likely meaning their starting QB (Matt Ryan and Joe Burrow) has hurt their chances of winning a game this season more often than not. Now to be fair to the Bengals, Joe Burrow was injured a few weeks back and they’ve been playing with backups for the remainder of the season. That would obviously have something to do with their name coming up on multiple occasions. The biggest surprise in these top 5 breakdowns, though, is the New Orleans Saints. With a record of 10-3, they are a high caliber team in the NFL. Yet when looking at their QB situation throughout the season, it has been a bit unexpected. The Saints lost their original starting QB in Drew Brees, a future Hall-of-Famer, and replaced him with a guy who has not played necessarily worse than him but who is more volatile on a week to week basis. That may explain why the Saints are at the top of the list in average win probabibilty differential and in standard deviation of win probability differential.</p>
+<p>Now, let’s breakdown the 5 teams with the smallest margins in each category.</p>
+<pre class="r"><code>avg_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(smallest_mean_elo_prob_diff = mean(elo_diff))
+avg_elo_diff %&gt;% filter(smallest_mean_elo_prob_diff &lt; 0.001)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   team1 smallest_mean_elo_prob_diff
+##   &lt;chr&gt;                       &lt;dbl&gt;
+## 1 ARI                      0.000230
+## 2 BUF                      0.000923
+## 3 CLE                     -0.00591 
+## 4 IND                     -0.000351
+## 5 PIT                     -0.0213</code></pre>
+<pre class="r"><code>med_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(smallest_median_elo_prob_diff = median(elo_diff))
+med_elo_diff %&gt;% filter(smallest_median_elo_prob_diff &lt; 0.009)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   team1 smallest_median_elo_prob_diff
+##   &lt;chr&gt;                         &lt;dbl&gt;
+## 1 ARI                        0.00782 
+## 2 BUF                        0.000119
+## 3 CLE                       -0.0133  
+## 4 IND                        0.00270 
+## 5 PIT                       -0.0131</code></pre>
+<pre class="r"><code>std_elo_diff &lt;- win_prob_team_1 %&gt;% mutate(elo_diff = elo_prob1 - qbelo_prob1) %&gt;% group_by(team1) %&gt;% summarize(smallest_sd_elo_prob_diff = sd(elo_diff))
+std_elo_diff %&gt;% filter(smallest_sd_elo_prob_diff &lt; 0.0256)</code></pre>
+<pre><code>## # A tibble: 5 x 2
+##   team1 smallest_sd_elo_prob_diff
+##   &lt;chr&gt;                     &lt;dbl&gt;
+## 1 BAL                      0.0213
+## 2 IND                      0.0205
+## 3 LAR                      0.0254
+## 4 NE                       0.0253
+## 5 SF                       0.0198</code></pre>
+<p>If you’ve been keeping up with the back half of the 2020 NFL season, you’ll notice that each team appearing in the top 5 for both the smallest average win probability differential and smallest median win probability differential are all in playoff contention or at least in the hunt. Through recent weeks, it can be argued that no QB has been more efficient than the Buffalo Bills’ Josh Allen or Cleveland Browns’ Baker Mayfield. Their level of consistency at the position has been mightily helpful in aiding their team’s chances of winning. This is reflected in their top 5 ranking here. However, the top 5 teams listed under the smallest standard deviation of win probability differential tell a different story. Guys like Philip Rivers, Jared Goff, and Cam Newton (IND, LAR, &amp; NE) aren’t going to necessarily lose you the game but typically haven’t been the reason why their teams have won. In other words, these QBs have been the definition of mediocre this season. There might be a game here or there where that particular QB pops but ultimately will revert back to the mean the following week.</p>
+</div>
+<div id="question-3" class="section level2">
+<h2>Question 3:</h2>
+<p>How has the number of points scored varied by team during the 2020 NFL season? Does playing on the road make a difference in this case? To investigate this, we will generate boxplots of the points scored for both the home and away team on a per game basis during the regular season. We’ll also calculate average points per game for each team (home and away) to see if home field advantage is more or less of an effect this year compared to previous ones. From there, our goal will be to identify any trends or scoring patterns from the data in order to make further assumptions.</p>
+<pre class="r"><code>pts_variables &lt;- c(&quot;score1&quot;, &quot;score2&quot;, &quot;team1&quot;, &quot;team2&quot;)
+pts &lt;- dat_nfl[pts_variables] %&gt;% na.omit()
+ggplot(data = pts, aes(x = team1, y = score1, fill = team1)) + geom_boxplot() + ggtitle(&quot;Home Team Points Scored During the 2020 NFL Regular Season&quot;) + theme(legend.position = &quot;none&quot;) + theme(axis.text.x = element_text(angle = 90, hjust = 0.5))</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(data = pts, aes(x = team2, y = score2, fill = team2)) + geom_boxplot() + ggtitle(&quot;Away Team Points Scored During the 2020 NFL Regular Season&quot;) + theme(legend.position = &quot;none&quot;) + theme(axis.text.x = element_text(angle = 90, hjust = 0.5))</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<p>When looking at the box plots above, we see more fluctuation with points scored by the home team on a per game basis. This is an interesting phenomenon as it would seem players are more comfortable playing in their home stadium environments. What’s even more of a shock is the more balanced scoring across the league when teams were away. Here, the median scoring of the away teams hover around the 25 point mark whereas the home team medians are more volatile from team to team. Is home field advantage non-existent in 2020? Perhaps, but player travel has also been a lot different this year with COVID protocols in place and that might also explain the wide range of outcomes.</p>
+<pre class="r"><code>avg_home_pts &lt;- pts %&gt;% group_by(team1) %&gt;% summarize(avg_score1 = mean(score1))
+avg_away_pts &lt;- pts %&gt;% group_by(team2) %&gt;% summarize(avg_score2 = mean(score2))
+avg_home_pts</code></pre>
+<pre><code>## # A tibble: 32 x 2
+##    team1 avg_score1
+##    &lt;chr&gt;      &lt;dbl&gt;
+##  1 ARI         30.6
+##  2 ATL         27.7
+##  3 BAL         26.6
+##  4 BUF         29  
+##  5 CAR         22.8
+##  6 CHI         16.8
+##  7 CIN         25.6
+##  8 CLE         23.2
+##  9 DAL         26.7
+## 10 DEN         15.7
+## # … with 22 more rows</code></pre>
+<pre class="r"><code>avg_away_pts</code></pre>
+<pre><code>## # A tibble: 32 x 2
+##    team2 avg_score2
+##    &lt;chr&gt;      &lt;dbl&gt;
+##  1 ARI         25.2
+##  2 ATL         25.8
+##  3 BAL         27  
+##  4 BUF         25  
+##  5 CAR         23.8
+##  6 CHI         22  
+##  7 CIN         17  
+##  8 CLE         25.2
+##  9 DAL         18.2
+## 10 DEN         23  
+## # … with 22 more rows</code></pre>
+<p>We also have two tables listing the average points scored for each team while they were home (avg_score1) and away (avg_score2) this season. There are, in fact, some teams that buck the trend of home field advantage as it relates to scoring points. Rosters with a sizable difference in scoring (averaging more points on the road) include CHI, DEN, JAX, LAR, SF, TB &amp; WSH. Almost a quarter of the league mirrors this tendency, yet is that enough to deem home field advantage a mirage in 2020? Well, there’s still a majority of teams scoring more at home or putting up a similar number of points regardless of where the game is played. So, that should put that argument to rest. However, I’d say there are more teams than usual lighting up the scoreboard on the opponents turf.</p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>After reviewing the data set above, it can be said that the QB position in today’s NFL is a relevant factor in determining a team’s success on the field. The best teams in the league often have the best QBs. Guys like Patrick Mahomes (KC) and Aaron Rodgers (GB) always seem to limit their mistakes and put their team over the top. As GMs and front offices continue to facilitate their rosters year in and year out, they should definitely prioritize finding that franchise QB.
+In terms of overall scoring, will those numbers go up or down from here on out? It’s something to ponder with many limitations still being put on players and coaches due to the ongoing pandemic.</p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" alt="Img link to Hugo website" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
