@@ -46,7 +46,7 @@
 
   <ul class="nav-links">
     
-    <li><a href="/about/">Ben Marlow</a></li>
+    <li><a href="/about/">About</a></li>
     
     <li><a href="https://github.com/bmarlow15">GitHub</a></li>
     
@@ -110,7 +110,7 @@ ggplot(data = pitcher_ratings, mapping = aes(x = date, y = pitcher1_rgs)) + face
 <div id="question-3" class="section level2">
 <h2>Question 3:</h2>
 <p>Who was the hottest team in each round of the postseason? The Dodgers were crowned World Champs in 6 games over the Tampa Bay Rays but is that to say they had all the momentum heading into the World Series let alone the entire span of the playoffs? Let’s find out.</p>
-<p>Note: Only variables elo1_pre and elo1_post will be used to calculate the change in elo rating per round (team2 variables output the inverse)</p>
+<p>Note: Only variables elo1_pre and elo1_post will be used to calculate the change in elo rating per round (team2 variables have an inverse output)</p>
 <pre class="r"><code>postseason_variables &lt;- c(&quot;date&quot;, &quot;playoff&quot;, &quot;team1&quot;, &quot;elo1_pre&quot;, &quot;elo1_post&quot;, &quot;team2&quot;, &quot;elo2_pre&quot;, &quot;elo2_post&quot;)
 ws &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;w&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) 
 ggplot(data = ws, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle(&quot;Change in Team Elo Rating during the World Series&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>

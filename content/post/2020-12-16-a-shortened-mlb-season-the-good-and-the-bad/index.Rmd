@@ -46,7 +46,7 @@ The graphs above would signal each team's group of starting pitchers performed r
 
 Who was the hottest team in each round of the postseason? The Dodgers were crowned World Champs in 6 games over the Tampa Bay Rays but is that to say they had all the momentum heading into the World Series let alone the entire span of the playoffs? Let's find out. 
 
-Note: Only variables elo1_pre and elo1_post will be used to calculate the change in elo rating per round (team2 variables output the inverse) 
+Note: Only variables elo1_pre and elo1_post will be used to calculate the change in elo rating per round (team2 variables have an inverse output) 
 
 ```{r, echo=TRUE}
 postseason_variables <- c("date", "playoff", "team1", "elo1_pre", "elo1_post", "team2", "elo2_pre", "elo2_post")
