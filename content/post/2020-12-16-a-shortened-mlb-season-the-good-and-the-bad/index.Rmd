@@ -49,27 +49,38 @@ Who was the hottest team in each round of the postseason? The Dodgers were crown
 Note: Only variables elo1_pre and elo1_post will be used to calculate the change in elo rating per round (team2 variables output the inverse) 
 
 ```{r, echo=TRUE}
-postseason_variables <- c("date", "playoff", "team1", "elo1_pre", "elo1_post")
+postseason_variables <- c("date", "playoff", "team1", "elo1_pre", "elo1_post", "team2", "elo2_pre", "elo2_post")
 ws <- dat_mlb[postseason_variables] %>% filter(playoff == "w") %>% mutate(elo1_change = elo1_post - elo1_pre) 
 ggplot(data = ws, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle("Change in Team Elo Rating during the World Series") + theme(legend.position = "none")
 ```
 
-As expected, the Dodgers were the hotter team in the World Series raising their team elo rating on average by 2 points. Let's dive into the League Championship Series to see if this pattern holds true.
+As expected, the Dodgers (LAD) were the hotter team in the World Series raising their team elo rating on average by 2 points. Let's dive into the League Championship Series to see if this pattern holds true.
 
-```{r}
+```{r, echo=TRUE}
 lcs <- dat_mlb[postseason_variables] %>% filter(playoff == "l") %>% mutate(elo1_change = elo1_post - elo1_pre) 
 ggplot(data = lcs, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle("Change in Team Elo Rating during the League Championship Series") + theme(legend.position = "none")
 ```
 
-In the LCS, the Dodgers weren't able to claim title of hottest team throughout. That tag can be assigned to both teams from the American League in the Houston Astros (HOU) and 
+In the LCS, the Dodgers weren't quite able to claim title of hottest team throughout. That can be given to both teams from the American League in the Houston Astros (HOU) and Tampa Bay Rays (TBD). Something important to note from this figure is that the median elo change for both HOU and TBD are almost identical whereas for the Atlanta Braves (ATL) and LAD there's about a 2-3 point gap. This is because the series between HOU and TBD was much more competitive where the Astros and Rays battled it out in 7 games for a chance to go to the World Series.
 
-```{r}
+```{r, echo=TRUE}
+library(dplyr)
+library(ggplot2)
 div <- dat_mlb[postseason_variables] %>% filter(playoff == "d") %>% mutate(elo1_change = elo1_post - elo1_pre) 
+ggplot(data = div, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle("Change in Team Elo Rating during the Division Series") + theme(legend.position = "none")
 ```
 
-```{r}
+There seems to be a much bigger gap between teams in the divisional round. The visual above does a great job of highlighting this as Atlanta and Los Angeles absolutely dominated their opponents this time around (ATL played FLA and LAD played SDP). Here, the hottest team could really go to any one of ATL, LAD, & TBD but because we've generally been basing this off of median elo change, we'll go ahead and hand it to the Braves.
+
+Lastly, there is the lonely Wild Card round -- not to be forgotten as it is the first step in advancing towards a postseason run. Will there be any surprise teams in the beginner stage of the playoffs?
+
+```{r, echo=TRUE}
 wc <- dat_mlb[postseason_variables] %>% filter(playoff == "c") %>% mutate(elo1_change = elo1_post - elo1_pre) 
+ggplot(data = wc, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle("Change in Team Elo Rating during the Wild Card Round") + theme(legend.position = "none")
 ```
+
+Some new teams in the conversation here include the Chicago Cubs (CHC) Cleveland Indians (CLE) & Minnesota Twins (MIN). Neither one of those three did enough to supplant themselves as the hottest team of the Wild Card round. That, in this case, would go to the San Diego Padres (SDP). They just barely outperformed ATL and TBD accounting for volatility (1st and 3rd quartiles).
+
 ## Conclusion 
 
-TBD
+Baseball in 2020 was quite the show. A 60-game regular season put the pressure on teams to play well each and every night. Standings were tight heading into the playoffs and that made for a really eventful month of October. Teams who were able to overcome the difficulties of COVID-19 along with managing a fast-paced schedule set themselves up for success. After digging through a few of these metrics, I hope the viewer was able to better understand some of baseball's more fascinating intricacies.

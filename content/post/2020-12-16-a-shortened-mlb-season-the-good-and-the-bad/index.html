@@ -45,19 +45,28 @@ ggplot(data = pitcher_ratings, mapping = aes(x = date, y = pitcher1_rgs)) + face
 <h2>Question 3:</h2>
 <p>Who was the hottest team in each round of the postseason? The Dodgers were crowned World Champs in 6 games over the Tampa Bay Rays but is that to say they had all the momentum heading into the World Series let alone the entire span of the playoffs? Let’s find out.</p>
 <p>Note: Only variables elo1_pre and elo1_post will be used to calculate the change in elo rating per round (team2 variables output the inverse)</p>
-<pre class="r"><code>postseason_variables &lt;- c(&quot;date&quot;, &quot;playoff&quot;, &quot;team1&quot;, &quot;elo1_pre&quot;, &quot;elo1_post&quot;)
+<pre class="r"><code>postseason_variables &lt;- c(&quot;date&quot;, &quot;playoff&quot;, &quot;team1&quot;, &quot;elo1_pre&quot;, &quot;elo1_post&quot;, &quot;team2&quot;, &quot;elo2_pre&quot;, &quot;elo2_post&quot;)
 ws &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;w&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) 
 ggplot(data = ws, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle(&quot;Change in Team Elo Rating during the World Series&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>As expected, the Dodgers were the hotter team in the World Series raising their team elo rating on average by 2 points. Let’s dive into the League Championship Series to see if this pattern holds true.</p>
+<p>As expected, the Dodgers (LAD) were the hotter team in the World Series raising their team elo rating on average by 2 points. Let’s dive into the League Championship Series to see if this pattern holds true.</p>
 <pre class="r"><code>lcs &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;l&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) 
 ggplot(data = lcs, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle(&quot;Change in Team Elo Rating during the League Championship Series&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
 <p><img src="index_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>In the LCS, the Dodgers weren’t able to claim title of hottest team throughout. That tag can be assigned to both teams from the American League in the Houston Astros (HOU) and</p>
-<pre class="r"><code>div &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;d&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) </code></pre>
-<pre class="r"><code>wc &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;c&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) </code></pre>
+<p>In the LCS, the Dodgers weren’t quite able to claim title of hottest team throughout. That can be given to both teams from the American League in the Houston Astros (HOU) and Tampa Bay Rays (TBD). Something important to note from this figure is that the median elo change for both HOU and TBD are almost identical whereas for the Atlanta Braves (ATL) and LAD there’s about a 2-3 point gap. This is because the series between HOU and TBD was much more competitive where the Astros and Rays battled it out in 7 games for a chance to go to the World Series.</p>
+<pre class="r"><code>library(dplyr)
+library(ggplot2)
+div &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;d&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) 
+ggplot(data = div, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle(&quot;Change in Team Elo Rating during the Division Series&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>There seems to be a much bigger gap between teams in the divisional round. The visual above does a great job of highlighting this as Atlanta and Los Angeles absolutely dominated their opponents this time around (ATL played FLA and LAD played SDP). Here, the hottest team could really go to any one of ATL, LAD, &amp; TBD but because we’ve generally been basing this off of median elo change, we’ll go ahead and hand it to the Braves.</p>
+<p>Lastly, there is the lonely Wild Card round – not to be forgotten as it is the first step in advancing towards a postseason run. Will there be any surprise teams in the beginner stage of the playoffs?</p>
+<pre class="r"><code>wc &lt;- dat_mlb[postseason_variables] %&gt;% filter(playoff == &quot;c&quot;) %&gt;% mutate(elo1_change = elo1_post - elo1_pre) 
+ggplot(data = wc, mapping = aes(x = team1, y = elo1_change, color = team1)) + geom_boxplot() + ggtitle(&quot;Change in Team Elo Rating during the Wild Card Round&quot;) + theme(legend.position = &quot;none&quot;)</code></pre>
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Some new teams in the conversation here include the Chicago Cubs (CHC) Cleveland Indians (CLE) &amp; Minnesota Twins (MIN). Neither one of those three did enough to supplant themselves as the hottest team of the Wild Card round. That, in this case, would go to the San Diego Padres (SDP). They just barely outperformed ATL and TBD accounting for volatility (1st and 3rd quartiles).</p>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>TBD</p>
+<p>Baseball in 2020 was quite the show. A 60-game regular season put the pressure on teams to play well each and every night. Standings were tight heading into the playoffs and that made for a really eventful month of October. Teams who were able to overcome the difficulties of COVID-19 along with managing a fast-paced schedule set themselves up for success. After digging through a few of these metrics, I hope the viewer was able to better understand some of baseball’s more fascinating intricacies.</p>
 </div>
